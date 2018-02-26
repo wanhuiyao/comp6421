@@ -1,0 +1,89 @@
+1. compile
+	g++ -std=c++11 -o scanner main.cpp scanner.cpp
+	gcc version not less than 4.9.2
+
+2. run
+	./scanner [source file name]
+	if no source file provided, it reads source.txt under the project folder as the default source file.
+
+3. result
+	3.1 all tokens will be printed on screen with type and line number
+	3.2 atocc file will be generated under the running path
+
+4. test cases 
+	source.txt contains all the test cases:
+
+		program{
+		/*valid id*/
+		int id;
+		int id1;
+		int id_2;
+
+		/*id begin with underscore is not supported*/
+		int _id;
+
+		/*valid int*/
+		0
+		1
+		10
+
+		/*invalid int*/
+		012
+
+		/*valid float*/
+		0.1
+		1.2
+		1.02
+		12e3
+		12e3.4
+		12e-3.4
+		1.20e-0.45
+
+		/*invlaid float*/
+		1.20
+		1.2e03
+		1.2e3.0
+		1.2e03.4
+
+		/*punctiation*/
+		.
+		,
+		;
+		:
+		::
+		+
+		-
+		*
+		/
+		(
+		)
+		[
+		]
+		{
+		}
+		<
+		>
+		=
+		<>
+		==
+		<=
+		>=
+
+		/*test reserved words*/
+		if
+		then
+		else
+		for
+		class
+		int
+		put
+		float
+		get
+		put
+		return
+
+		/*test comments*/
+		//one line comments
+		}
+		
+

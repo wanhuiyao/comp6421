@@ -1,0 +1,76 @@
+program{
+/*valid id*/
+int id;
+int id1;
+int id_2;
+
+/*id begin with underscore is not supported*/
+int _id;
+
+/*valid int*/
+0
+1
+10
+
+/*invalid int*/
+012
+
+/*valid float*/
+0.1
+1.2
+1.02
+12e3
+12e3.4
+12e-3.4
+1.20e-0.45
+
+/*invlaid float*/
+1.20
+1.2e03
+1.2e3.0
+1.2e03.4
+
+/*punctiation*/
+.
+,
+;
+:
+::
++
+-
+*
+/
+(
+)
+[
+]
+{
+}
+<
+>
+=
+<>
+==
+<=
+>=
+
+/*test reserved words*/
+if
+then
+else
+for
+class
+int
+put
+float
+get
+put
+return
+
+
+
+/*test comments*/
+//one line comments
+
+
+}
