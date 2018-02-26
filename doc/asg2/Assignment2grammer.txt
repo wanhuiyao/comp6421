@@ -1,0 +1,80 @@
+prog			->	N_classDecl N_funcDef 'program' funcBody ';'
+N_classDecl		->	classDecl N_classDecl
+				 |	EPSILON
+N_funcDef		->	funcDef N_funcDef
+				 |	EPSILON
+			 
+classDecl		->	'class' 'id' baseClass '{' N_varDecl N_funcDecl '}' ';'
+baseClass		->	':' 'id' N_baseClass
+				 |	EPSILON
+N_baseClass		->	',' 'id' N_baseClass
+				 |	EPSILON
+N_funcDecl		->	funcDecl N_funcDecl
+				 |	EPSILON
+				 
+funcDecl		->	type 'id' '(' fParams ')' ';'
+funcHead		->	type 'id' SR_ID '(' fParams ')'
+SR_ID			->	'sr' 'id'
+				 |	EPSILON
+funcDef			->	funcHead funcBody ';'
+funcBody		->	'{' N_varDecl N_statement '}'
+N_varDecl		->	varDecl N_varDecl
+				 |	EPSILON
+varDecl			->	type 'id' N_arraySize ';'
+N_statement		->	statement N_statement
+				 |	EPSILON
+statement		->	assignStat ';'
+				 |	'if' '(' expr ')' 'then' statBlock 'else' statBlock ';'
+				 |	'for' '(' type 'id' assignOp expr ';' relExpr ';' assignStat ')' statBlock ';'
+				 |	'get' '(' variable ')' ';'
+				 |	'put' '(' expr ')' ';'
+				 |	'return' '(' expr ')' ';'
+assignStat		->	variable assignOp expr
+statBlock		->	'{' N_statement '}' 
+				 |	statement
+				 |	EPSILON
+expr			->	arithExpr relExprTail
+relExprTail		->	relOp arithExpr
+				 |	EPSILON
+
+relExpr			->	arithExpr relOp  arithExpr
+arithExpr 		->	term N_arithExpr
+N_arithExpr		->	addOp term N_arithExpr
+				 |	EPSILON
+sign			->	'+' | '-'
+term 			->	factor N_term
+N_term 			->	multOp factor N_term
+				 |	EPSILON
+factor			->	N_idnest 'id' N_idnest_id
+				 |	'intNum' 
+				 |	'floatNum'
+				 |	'(' arithExpr ')'
+				 |	'not' factor
+				 |	sign factor
+N_idnest_id		->	N_indice 
+				 | '(' aParams ')'
+variable		->	N_idnest 'id' N_indice
+N_idnest		->	idnest N_idnest
+				 |	EPSILON
+idnest			->	'id' idnestTail
+idnestTail		->	N_indice '.' 
+				 |	'(' aParams ')' '.'
+N_indice		->	indice N_indice
+				 |	EPSILON
+indice			->	'[' arithExpr ']'
+arraySize		->	'[' intNum ']'
+type			->	'int' | 'float' | 'id'
+fParams			->	type 'id' N_arraySize N_fParamsTail | EPSILON
+aParams			->	expr N_aParamsTail | EPSILON
+N_fParamsTail 	->	fParamsTail N_fParamsTail
+				 |	EPSILON
+fParamsTail		->	',' type 'id' N_arraySize
+N_arraySize		->	arraySize N_arraySize
+				 |	EPSILON
+N_aParamsTail 	->	aParamsTail N_aParamsTail
+				 |	EPSILON
+aParamsTail		->	',' expr
+assignOp		->	'='
+relOp			->	'eq' | 'neq' | 'lt' | 'gt' | 'leq' | 'geq'
+addOp			->	'+' | '-' | 'or'
+multOp			->	'*' | '/' | 'and'
